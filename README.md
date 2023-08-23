@@ -41,11 +41,11 @@ The simulation has  3 modes of operation:
   Else, the third mode is used. 
 
 ## List of files 
-bb.c 	 the main file to compile
-I22.h  	contains most of the functions and code
-constants.h  contains all of the parameters, both those that can be configured via command line and those that can not
-auxfunctions.h contains some auxiliary functions
-test23.c  contains some testing procedures (undocumented)
+- bb.c 	 the main file to compile
+- I22.h  	contains most of the functions and code
+- constants.h  contains all of the parameters, both those that can be configured via command line and those that can not
+- auxfunctions.h contains some auxiliary functions
+- test23.c  contains some testing procedures (undocumented)
 
 
 ## Output
@@ -79,13 +79,16 @@ The code can be compiled directly by running
 
 ## Example usage
 
+```
 ./a.out --PopulationSize 1000 --BatchSize 20 --BeaconBatchSize 100 --NumberOfAttributes 100 --MaxAttributeValues 2 --IndividualAttributeMutation 0.01 --IdealAttributeMutation 0.01 --StrategyMutation 0.01 --BeaconChangeStep 1 --2BeaconChangeStep 50 --AttributeCost 0.01 --BeaconLookupCost 1  --InternalBeaconLookupCost 1 --LocalBeaconLookupCost 1  --2BeaconLookupCost 1 --OwnIdealCost 1 --LocalFloatBeaconLookupCost 1 --FloatBeaconLookupCost 0.31 --RandomSeed 16 --NumberRepetitions 50 --RunLength 5000 --DeferredDecimation 50 --AveragesFileName AveragesFile
+```
 
 The above runs the simulation with 50 trials, the stats written into the file AveragesFile. The costs of all non-random strategies are set to except 
 for female-estimated beacon which is set to 0.31. 
 
-
+```
 ./a.out --PopulationSize 1000 --BatchSize 20 --BeaconBatchSize 100 --NumberOfAttributes 100 --MaxAttributeValues 2 --IndividualAttributeMutation 0.01 --IdealAttributeMutation 0.01 --StrategyMutation 0.01 --BeaconChangeStep 1 --2BeaconChangeStep 50 --AttributeCost 0.01 --BeaconLookupCost 0.1  --InternalBeaconLookupCost 1 --LocalBeaconLookupCost 1  --2BeaconLookupCost 1 --OwnIdealCost 1 --LocalFloatBeaconLookupCost 1 --FloatBeaconLookupCost 1 --RandomSeed 16 --NumberRepetitions 0
+```
 
 The above is the same but only one simulation is run, and the only enabled strategy (with cost less than 1) is the first global beacon (with cost 0.1)
 
