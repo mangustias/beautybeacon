@@ -3,7 +3,7 @@
 This code was used in the experiments for the paper ``Beauty beacon: correlated strategies for the Fisher runaway proces.''
 
 It provides a simulation model described in the paper
-fgdfgfd
+
 # Description
 The program runs simulated  reproduction-mutation-decimation cycles for a population of fixed size consisting of an equal number of males and females.
 Discrete generations are used, where on each generation the population is fully regenerated. Each breeding pair produces exactly one male and one female
@@ -26,7 +26,7 @@ The female strategy can take a number of values whose meaning is as follows:
 The global beacons are realized as global arrays of variables of the same size  and kind as the ornament.
 
 
-##Modes of operation##
+## Modes of operation
 
 The simulation has  3 modes of operation: 
  - run a single  trial, whose number of generations is specified in the variable runlength
@@ -40,7 +40,7 @@ The simulation has  3 modes of operation:
  Otherwise, if the cost of every non-random (positive index) strategy is positive, then the second mode is used.
   Else, the third mode is used. 
 
-##Output## 
+## Output
  The output depends on the mode of operation.
  In the first (single trial) mode, the average numbers of females with each strategy are output each snapshotstep generations. 
  In addition, the following is written to the file  mout: space-separated, followed by EOL
@@ -69,7 +69,7 @@ The code can be compiled directly by running
 
 # Running the simulation
 
-##Example usage##
+## Example usage
 
 ./a.out --PopulationSize 1000 --BatchSize 20 --BeaconBatchSize 100 --NumberOfAttributes 100 --MaxAttributeValues 2 --IndividualAttributeMutation 0.01 --IdealAttributeMutation 0.01 --StrategyMutation 0.01 --BeaconChangeStep 1 --2BeaconChangeStep 50 --AttributeCost 0.01 --BeaconLookupCost 1  --InternalBeaconLookupCost 1 --LocalBeaconLookupCost 1  --2BeaconLookupCost 1 --OwnIdealCost 1 --LocalFloatBeaconLookupCost 1 --FloatBeaconLookupCost 0.31 --RandomSeed 16 --NumberRepetitions 50 --RunLength 5000 --DeferredDecimation 50 --AveragesFileName AveragesFile
 
@@ -81,7 +81,7 @@ for female-estimated beacon which is set to 0.31.
 
 The above is the same but only one simulation is run, and the only enabled strategy (with cost less than 1) is the first global beacon (with cost 0.1)
 
-##Enabling the different modes of operation##
+## Enabling the different modes of operation
 
 The first mode, single trial, is enabled by specifying --NumberRepetitions 0
 
@@ -91,7 +91,7 @@ For example, the following set of options enables optimization on the first glob
 
 If neither the first nor the third modes are enabled then the second mode (single series of length NumberRepetitions) is used.
 
-##Command line options##
+## Command line options
 The following are the command-line options:
 
 --AveragesFileName <string>  default value: "averages"
