@@ -3,14 +3,14 @@
 This code was used in the experiments for the paper ``Beauty beacon: correlated strategies for the Fisher runaway proces.''
 
 It provides a simulation model described in the paper
-
-#Description
+fgdfgfd
+# Description
 The program runs simulated  reproduction-mutation-decimation cycles for a population of fixed size consisting of an equal number of males and females.
 Discrete generations are used, where on each generation the population is fully regenerated. Each breeding pair produces exactly one male and one female
 offspring. Individuals are haploid, inheritance is with equal probability from each parent. Each individual consists of: strategy (char), and two arrays 
 of chars which represent the ornament and the beacon ornament as described in the paper. Each array is inherited in its entirety from one of the parents.
 
-##Female strategies##
+## Female strategies
 
 The female strategy can take a number of values whose meaning is as follows:
 0  random choice
