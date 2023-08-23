@@ -40,6 +40,14 @@ The simulation has  3 modes of operation:
  Otherwise, if the cost of every non-random (positive index) strategy is positive, then the second mode is used.
   Else, the third mode is used. 
 
+## List of files 
+bb.c 	 the main file to compile
+I22.h  	contains most of the functions and code
+constants.h  contains all of the parameters, both those that can be configured via command line and those that can not
+auxfunctions.h contains some auxiliary functions
+test23.c  contains some testing procedures (undocumented)
+
+
 ## Output
  The output depends on the mode of operation.
  In the first (single trial) mode, the average numbers of females with each strategy are output each snapshotstep generations. 
