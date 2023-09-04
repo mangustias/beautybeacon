@@ -4,8 +4,6 @@ int rseed=1;
 int lowDEBUG=0;
 
 
-//# define popsize 2000
-
 
 
 int popsize=1000;
@@ -55,7 +53,7 @@ These data are as follows:
 
 # define populationsnapshotstep 0
 /*  If positive, every populationsnapshotstep the whole male population is dumped into the file mout2 and the whole
-female population is dumped into the file mour3
+female population is dumped into the file mout3
 The format is as follows:
 one line per indiviudal
  Each ornament attribute, followed by each each beacon ornament attribute, followed by the strategy
