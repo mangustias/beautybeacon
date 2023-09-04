@@ -105,103 +105,103 @@ If neither the first nor the third modes are enabled then the second mode (singl
 ## Command line options
 The following are the command-line options:
 
---AveragesFileName <string>  default value: "averages"
+--AveragesFileName (string argument)  default value: "averages"
  the filename where to output averages over several simulation runs.
  This is only used in conjunction with NumberRepetitions option, in case the latter is non-zero, and in case there is one strategy whose cost is between 0 and 1 (but not 0 and not 1).
  The averages are output in the following format:
  A B C 
  wher A is the cost of the strategy, B is the average, and C is the standard error
  
---PopulationSize <interger>  default value: 1000
+--PopulationSize (integer argument)  default value: 1000  
   1/2 of the population size. There will be this number of females and this number of males in the population.
   
---SnapshotStep <integer> default value: 10  
+--SnapshotStep (integer argument) default value: 10  
  Every snapshotstep  generations, the population data is written to the file 'mout' and some data is written to STDOUT, 
  unless numrepetitions=0
  
---BatchSize <interger>  default value: 20
+--BatchSize (integer argument)  default value: 20  
   A parameter of all the choosy strategies: the size of the batch of males to select from.
   
--- BeaconBatchSize <interger>  default value: 100
+-- BeaconBatchSize (integer argument)  default value: 100  
   A parameter for the female-estimated beacon. The batch of this size is used to construct the beacon estimate by each female.
   
---NumberOfAttributes <interger>  default value: 100
+--NumberOfAttributes (integer argument)  default value: 100  
 	The number of attributes (loci) in the ornament; the same value is used for the beacon ornament
 	
---MaxAttributeValues <interger>  default value: 2 
+--MaxAttributeValues (integer argument)  default value: 2   
 	The maximum number of different values an attribute locus can take. In all the experiments reported in the paper this value is 2 (binary loci).
 	
---IndividualAttributeMutation <float>  default value: 0.01
+--IndividualAttributeMutation (float argument)  default value: 0.01  
   probability of mutation of each individual attribute (locus) in the ornament
   
---StrategyMutation <float>  default value: 0.01
+--StrategyMutation (float argument)  default value: 0.01  
   probability of mutation of the strategy
 
---IdealAttributeMutation <float>  default value: 0.01
+--IdealAttributeMutation (float argument)  default value: 0.01  
   probability of mutation of each individual attribute (locus) in the beacon ornament. 
   In the reported  experiments this is the same as IndividualAttributeMutation
   
---LopsidedMutation <float>  default value: 0
+--LopsidedMutation (float argument)  default value: 0  
   Extra mutation applied to each ornament attribute whose value is 1 (transforming it to 0).
   This is used in the baseline strategy with a single attribute locus in the ornament. 
 
 
---BeaconChangeStep  <interger>  default value: 1
+--BeaconChangeStep  (integer argument)  default value: 1   
    The number of generations after which the first beacon changes
    
---BeaconChangeAttrs  <interger>  default value: 1
+--BeaconChangeAttrs  (integer argument)  default value: 1   
   The number of loci to change in the first beacon when it changes
   
---2BeaconChangeStep  <interger>  default value: 50
+--2BeaconChangeStep  (integer argument)  default value: 50  
    The number of generations after which the second beacon changes
  
---AttributeCost <float>  default value: 0.01
+--AttributeCost (float argument)  default value: 0.01  
   the cost applied to the males. The average value of the ornament is multiplied by this parameter to obtain the cost.
   
---RandomSeed <integer>  default value: 1
+--RandomSeed (integer argument)  default value: 1  
    Random seed initialization 
    
---RunLength <integer>  default value: 5000
+--RunLength (integer argument)  default value: 5000  
  The number of generations in each trial run
  
---NumberRepetitions <integer>  default value: 0
+--NumberRepetitions (integer argument)  default value: 0  
   The number of independent runs to do with the same parameter values. If 0 then just one run is used. If positive then the average values over the runs
   are recorded in the "averages" file. (See --AveragesFileName )
   
---BeaconLookupCost <float>  default value: 1
+--BeaconLookupCost (float argument)  default value: 1  
 	The cost of the beacon strategy that uses the first beacon
 
---2BeaconLookupCost  <float>  default value: 1
+--2BeaconLookupCost  (float argument)  default value: 1  
 	The cost of the beacon strategy that uses the second beacon
 	
---InternalBeaconLookupCost <float>  default value: 1
+--InternalBeaconLookupCost (float argument)  default value: 1  
 	The cost of the beacon strategy that uses female-estimated beacon, estimated over the whole population and then made binary using a simple threshold.
 	This strategy is not used in the experiments reported in the paper.
 
---LocalBeaconLookupCost <float>  default value: 1
+--LocalBeaconLookupCost (float argument)  default value: 1   
 	The cost of the beacon strategy that uses female-estimated beacon, estimated over a random batch and then made binary using a simple threshold.
 	This strategy is not used in the experiments reported in the paper.
 	
---LocalFloatBeaconLookupCost <float>  default value: 1
+--LocalFloatBeaconLookupCost (float argument)  default value: 1  
 	The cost of the beacon strategy that uses female-estimated beacon, estimated over a random batch.
 	
---FloatBeaconLookupCost <float>  default value: 1
+--FloatBeaconLookupCost (float argument)  default value: 1  
 	The cost of the beacon strategy that uses female-estimated beacon, estimated over the whole population.
 	
---OwnIdealCost  <float>  default value: 1
+--OwnIdealCost  (float argument)  default value: 1  
 	The cost of the "simple runaway" strategy, where each female uses its own beacon (stored in the beacon ornament) to match the ornament of the males.
 	This strategy is used as the baseline strategy with lopsided mutation and 1 attribute in the ornament.
 	
---ZeroInitialPopulation  no argument. 
+--ZeroInitialPopulation  no argument.   
 	Initiliaze the population with all 0s. This means the strategy locus is 0 (random strategy) and all ornaments/beacons are set to 0.
 
---RandomInitialPopulation  no argument. 
+--RandomInitialPopulation  no argument.   
 	Initiliaze the population uniformly at random.
 	
---DeferredDecimation <integer>  default value: 50
+--DeferredDecimation (integer argument)  default value: 50  
  		Initiliaze the population uniformly at random, and set the cost 0 until the generation specified. This is only applied to the strategy whose cost is not 0 and not 1, provided there is only one such strategy.
 
---ZeroIdealRandomInitialPopulation no argument. 
+--ZeroIdealRandomInitialPopulation no argument.   
 	Initialize the population uniformly at random, except for the beacon ornament that is uniformly 0.
 	This initialization is not used in the experiments reported in the paper.
 
