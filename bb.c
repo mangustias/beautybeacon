@@ -24,6 +24,7 @@ int opt;
  struct option longopts[] = { 
         { "AveragesFileName", required_argument, NULL, 'e' },
         { "PopulationSize", required_argument, NULL, 'p' },
+        { "SnapshotStep", required_argument, NULL, 'P' },
         { "BatchSize", required_argument, NULL, 'b' },
         { "BeaconBatchSize", required_argument, NULL, 'B' },
         { "NumberOfAttributes", required_argument, NULL, 'a' },
@@ -54,13 +55,18 @@ int opt;
     };
 
 
-  while((opt = getopt_long (argc, argv, "p:b:a:v:m:q:x:y:o:s:S:o:O:c:r:k:f:F:R:n:ZAID:e:C:", longopts, 0)) != -1) 
+  while((opt = getopt_long (argc, argv, "p:b:a:v:m:q:x:y:o:s:S:o:O:c:r:k:f:F:R:n:ZAID:e:C:P:", longopts, 0)) != -1) 
     { 
         switch(opt) 
         { 
             case 'p': 
                 popsize= atoi(optarg);
                 printf("PopulationSize: %i\n", popsize);
+                break; 
+
+            case 'P': 
+                snapshotstep= atoi(optarg);
+                printf("SnapshotStep: %i\n", snapshotstep);
                 break; 
 
             case 'b': 
