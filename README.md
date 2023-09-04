@@ -115,6 +115,10 @@ The following are the command-line options:
 --PopulationSize <interger>  default value: 1000
   1/2 of the population size. There will be this number of females and this number of males in the population.
   
+--SnapshotStep <integer> default value: 10  
+ Every snapshotstep  generations, the population data is written to the file 'mout' and some data is written to STDOUT, 
+ unless numrepetitions=0
+ 
 --BatchSize <interger>  default value: 20
   A parameter of all the choosy strategies: the size of the batch of males to select from.
   
