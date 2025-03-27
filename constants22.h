@@ -54,9 +54,10 @@ These data are as follows:
 # define populationsnapshotstep 0
 /*  If positive, every populationsnapshotstep the whole male population is dumped into the file mout2 and the whole
 female population is dumped into the file mout3
+two lines per indiviudal
 The format is as follows:
-one line per indiviudal
- Each ornament attribute, followed by each each beacon ornament attribute, followed by the strategy
+a: each ornament attribute space-separated
+i:  each beacon ornament attribute space-separated followed by the strategy
 */
 
 
@@ -76,9 +77,21 @@ int beacon1changeattrs=1;
 
 
 
-int numattrs=100;
+int numattrs=10;
 //	The number of attrivutes (loci) in the ornament; the same value is used for the beacon ornament
 //   Can be configured as a command-line option  --NumberOfAttributes
+
+int attrblocksize=1; 
+//  The array of attributes is divided into  blocks (genes) of this size. Each block is inhereted as a whole.
+//  Recombination may swap blocks 
+
+
+
+
+float delta = 0.5; 
+// the  recombintation paramter.
+
+
 
 #define numstrategies 9
 // The total number of female strategies. This include some strategies unused in the experiments. In each experiment, typically only 2 strategies
@@ -149,7 +162,7 @@ int deferreddecimation=0;
 #define epsilon 0.01
 #define startvalue 0.4
 #define maxiterations 50
-float targetvalue=0.85;
+float targetvalue=0.5;
 float step=0.2;
 
 /*

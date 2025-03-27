@@ -26,6 +26,7 @@ int opt;
         { "PopulationSize", required_argument, NULL, 'p' },
         { "SnapshotStep", required_argument, NULL, 'P' },
         { "BatchSize", required_argument, NULL, 'b' },
+        { "BlockSize", required_argument, NULL, 'z' },
         { "BeaconBatchSize", required_argument, NULL, 'B' },
         { "NumberOfAttributes", required_argument, NULL, 'a' },
         { "MaxAttributeValues", required_argument, NULL, 'v' },
@@ -42,6 +43,7 @@ int opt;
         { "NumberRepetitions", required_argument, NULL, 'N' },
         { "BeaconLookupCost", required_argument, NULL, 'l' },
         { "2BeaconLookupCost", required_argument, NULL, 'L' },
+        { "Delta", required_argument, NULL, 'd' },
         { "InternalBeaconLookupCost", required_argument, NULL, 'o' },
         { "LocalBeaconLookupCost", required_argument, NULL, 'O' },
         { "LocalFloatBeaconLookupCost", required_argument, NULL, 'f' },
@@ -55,7 +57,7 @@ int opt;
     };
 
 
-  while((opt = getopt_long (argc, argv, "p:b:a:v:m:q:x:y:o:s:S:o:O:c:r:k:f:F:R:n:ZAID:e:C:P:", longopts, 0)) != -1) 
+  while((opt = getopt_long (argc, argv, "p:b:a:v:m:q:x:y:o:s:S:o:O:c:r:k:f:F:R:n:ZAID:e:C:P:z:d:", longopts, 0)) != -1) 
     { 
         switch(opt) 
         { 
@@ -72,6 +74,10 @@ int opt;
             case 'b': 
                 batchsize= atoi(optarg);
                 printf("BatchSize: %i\n", batchsize);
+                break; 
+            case 'z': 
+                attrblocksize= atoi(optarg);
+                printf("BlockSize: %i\n", attrblocksize);
                 break; 
             case 'B': 
                 beaconbatchsize= atoi(optarg);
@@ -132,6 +138,10 @@ int opt;
             case 'N': 
                 numrepetitions= atoi(optarg);
                 printf("NumberRepetitions: %i\n", numrepetitions);
+                break; 
+            case 'd': 
+                delta= atof(optarg); // the recombindation parameter
+                printf("Delta: %f\n", delta);
                 break; 
             case 'l': 
                 strategycost[3]= atof(optarg); //Global independent incrementally updated (one attribute at a time) binary beacon; updated every %beaconchangestep
@@ -209,8 +219,8 @@ The logic of the main is as follows. It has 3 modes of operation:
   snaptshotstep is only enabled in the first mode. 
   
   The optimization procedure in the third mode consists of running multiple series of trials. Each series is of size numrepetitions and each trial is of length runlength generations. 
-  The procedure  tries to find the highest cost for this strategy with which it persists above the threshold targetvalue. 
-This is done by running numrepetitions runs starting with cost startvalue, with decreasing step (starting with the varialble step) until either maxiterations is reached or the difference between values tried is less than epsilon
+  The procedure  tries to find the highest cost for this strategy with which it persists above the threshold `targetvalue'. 
+This is done by running numrepetitions runs starting with cost startvalue, with decreasing step (starting with the value specified in the varialble `step') until either maxiterations is reached or the difference between values tried is less than epsilon
 
 In all the cases, the actual (series of) trials is run via the function runtrials(..)
 

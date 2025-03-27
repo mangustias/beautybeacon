@@ -57,7 +57,9 @@ void testmakerandomI(){
 void testmakeI(){
    I M, F, Ch;
    
-    makezeroI(&M); 
+   
+   
+/*    makezeroI(&M); 
    makezeroI(&F); 
    makezeroI(&Ch); 
    
@@ -70,10 +72,12 @@ void testmakeI(){
  printf("C: \n");
  printI(&Ch);
 
-
+*/
     makerandomI(&M); 
     makerandomI(&F); 
+    makerandomI(&Ch);
    makeI(&M,&F,&Ch); 
+     
 
  printf("M: \n");
  printI(&M);
@@ -397,6 +401,41 @@ void testgetminvalue(){
 
 */
 
+
+void testgetattrdistancetocenter(long int size){
+	long int i;
+
+	float averagestr[numstrategies];
+	float averageattr[numattrs], averageideal[numattrs];
+	long double averagea, maxval, entrattr, entrideal, entrstrat=0, averagel1dist;
+
+
+	popsize=size;
+	I *M;
+
+       M=malloc(size*(sizeof(I)+1));
+	for (i=0;i<size;i++){
+		makerandomI(&M[i]);
+		printI(&M[i]);
+	 }
+	
+	getaverages(M, averageattr, averageideal, averagestr,size);
+	
+	
+
+  	printf("\nCenter:");
+	for (i=0;i<numattrs;i++){
+	    	printf("%f ",averageattr[i]);
+	} 		
+  	printf("\n");
+
+	long double d=getattrdistancetocenter(M,averageattr,size);
+	
+  	printf("Dist: %Lf\n",d);
+	
+
+}
+
 void testgetaverages(long int size){
 	long int i;
 	float averagestr[numstrategies];
@@ -404,6 +443,7 @@ void testgetaverages(long int size){
 	long double averagehowmanyattr;
 	I *M;
 //	printf("Size of I: %i \n ", sizeof(I));
+
 
        M=malloc(size*(sizeof(I)+1));
 
@@ -563,13 +603,19 @@ void testfprintpopattrsentr(int size){
     I *M;
     int i;
 
+	popsize=size;
+
+      indexpop=malloc(popsize*(sizeof(int)));
+    for (i=0;i<popsize;i++){indexpop[i]=i;}
+
     M = malloc(size*(sizeof(I)+1));
     
 	for (i=0;i<size;i++){
 		makerandomI(&M[i]);
-//		printI(&M[i]);
+		printI(&M[i]);
 	 }
  
+//	 printf("\n XXXXXXXXXXXXXX \n" );
 
     fprintpopattrsentr(M, stdout);
 
@@ -597,6 +643,7 @@ void testl1distance(){
 
 void testl1distancef(){
 
+
 	attrtype b[numattrs];
 	float a[numattrs];
 	int i;
@@ -623,63 +670,21 @@ void main()  {
 srand(2);
 int i,j,k;
 
+  indexpop=malloc(popsize*(sizeof(int)));
+    for (i=0;i<popsize;i++){indexpop[i]=i;}
+
+
 //  int indexpop[popsize];
 //  for (i=0;i<popsize;i++){indexpop[i]=i;}
 //  int NEstrat=numenabledstrategies();
 
-//testconfidenceint();
-
-testupdatebeacon(5);
-
-
-//testgetrlivebatch(3,30);
-
-
-//testonerpopgauss(0,30,1000);
-
-
-//testselectMaxMfromrandbatch(5,5,2);
-
-// testgetaveragel1distance();
-//testgetsecondmostfrequent(10);
-
-//testindfpreference(1);
-
-//testselectMaxMfromrandbatch(5,50,1);
-
-
-//testassignrestrategy(20,NEstrat);
-//testnumenabledstrategies();
-//testdistrans(20);
-
-//testgetrlivebatch(5,2);
-
+//testgetaverages(3);
 
 //testl1distancef();
 
-//testindfpreference(4);
-//testmakebinarybeaconfromideals(400000,200);
 
+testgetattrdistancetocenter(200);
 
-//printf ("%Lf \n",log2(1025));
-
-//testkillF(0);
-
-//testgetaverages(44444);
-
-//testgetdifferentattrarrays();
-
-
-//testgetaverages(10);
-//testindfpreference(1);
-
-//testl1distance();
-
-//testmakeI();
-
-//testindfpreference(2);
-// printf ("%i \n",21 % 20);
-//testmakerandomI();
 
 
 
