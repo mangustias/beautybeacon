@@ -355,43 +355,72 @@ The strategy is mutated with probability stratmutation
  void makeI( I *M,  I *F, I *Inew){
 /*
 This is breeding. M and F are parents, and Inew is child. Each of the ornament, beacon ornament, and strategy is inherited with probability 
-1/2 from either of the parents. Ornament and beacon ornament arrays are inherited in full from the same parent.
+1/2 from either of the parents. Ornament and beacon ornament arrays are inherited in full, each  from the same parent; afterwards, recombination is applied, 
+which means that each block of attributes in the ornmanet and in the beacon ornament is swapped for that of the other parent.
 Mutation is applied after breeding.
 Alive =1 in the child
 */
-	int i;
+
+	int numblocks  = (float)numattrs/(float)attrblocksize; // must be integer
+	int i,j;
 	Inew->alive=1;
+ 
+        I *Ifrom, *Iother; 
 
-        if (rand()>RAND_MAX/2)
-            {	
-		for (i=0;i<numattrs;i++){
-			Inew->attr[i]=M->attr[i]; }
+	 //inherit the ornament
+        if (rand()>RAND_MAX/2) 
+            {	Ifrom=M; Iother=F;}
+            else {Ifrom=F; Iother=M;}
+        
+         
+		for (i=0;i<numblocks;i++){
+			
+		        if (rand()<RAND_MAX*delta) {
+				for (j=0;j<attrblocksize;j++){
+					Inew->attr[i*attrblocksize+j]=Iother->attr[i*attrblocksize+j]; 
+//					Inew->attr[i*attrblocksize+j]=rintunif(maxattrvalues); 
+
+					}
+				}	
+			 else{
+				for (j=0;j<attrblocksize;j++){
+				 	Inew->attr[i*attrblocksize+j]=Ifrom->attr[i*attrblocksize+j]; 		 
+//				 	Inew->attr[i*attrblocksize+j]=rintunif(maxattrvalues); 		 
+ 					 }
+				}		 	
 		}
-		else {
-		for (i=0;i<numattrs;i++){
-			Inew->attr[i]=F->attr[i]; }
+
+	 //inherit the beacon ornament
+        if (rand()>RAND_MAX/2) 
+            {	Ifrom=M; Iother=F;}
+            else {Ifrom=F; Iother=M;}
+        
+         
+		for (i=0;i<numblocks;i++){
+			
+		        if (rand()<RAND_MAX*delta) {
+				for (j=0;j<attrblocksize;j++){
+					Inew->ideal[i*attrblocksize+j]=Iother->ideal[i*attrblocksize+j]; 
+					}
+				}	
+			 else{
+				for (j=0;j<attrblocksize;j++){
+				 	Inew->ideal[i*attrblocksize+j]=Ifrom->ideal[i*attrblocksize+j]; 		 
+ 					 }
+				}		 	
 		}
 
-        if (rand()>RAND_MAX/2)
-            {	
-		for (i=0;i<numattrs;i++){
-			Inew->ideal[i]=M->ideal[i]; }
-		}
-		else {
-		for (i=0;i<numattrs;i++){
-			Inew->ideal[i]=F->ideal[i]; }
-		}
 
 
-
-        if (rand()>RAND_MAX/2) {	
+        if (rand()>RAND_MAX/2) { // inherit the strategy
 		Inew->strategy=F->strategy;
 		}
 	else{
 		Inew->strategy=M->strategy;
 		}
 
-	mutateI(Inew);
+
+	mutateI(Inew); //mutate the result
 }
 
 
@@ -409,19 +438,23 @@ void getaverageideal(I *M,  float *averageideal, int size, int *index){
 	int i,j; 
 	long long int  sumideal[numattrs];
 
+
 	for (i=0;i<numattrs;i++){ sumideal[i]=0;}
+
+
 
 	if (index==NULL){index=indexpop;} //indexpop is the dummy array 1..popsize
 
 
-
+	
 	for (i=0;i<size;i++){
-			        if (lowDEBUG){printf("i %i index %i \n",i, index[i]);
-			        printI(&M[index[i]]);
-			        }
+
+//			        if (lowDEBUG){printf("i %i index %i \n",i, index[i]);
+//			        printI(&M[index[i]]);
+//			        }
 
 		for (j=0;j<numattrs;j++){
-			        if (lowDEBUG){printf("xxxxx %i\n",j);			        }
+			        if (lowDEBUG){printf("xxxxx %i %i %i \n",j);			        }
 			sumideal[j]+=M[index[i]].ideal[j]; 
 			}
 	}
@@ -623,6 +656,7 @@ void getaverageattrs(I *M, float *averageattr, int size){
 	int i,j; 
 	long long int  sumattr[numattrs];
 
+  	
 	for (i=0;i<numattrs;i++){ sumattr[i]=0;}
 
 
@@ -677,12 +711,65 @@ void updatesumstrat (I *M,  long double *sumstrat, int size){
 
 
 void getaverages(I *M, float *averageattr, float *averageideal, float *averagestrat, int size){
+
 	getaverageattrs (M, averageattr,size);
+
 	getaverageideal (M, averageideal,size,NULL);
+
 	getaveragestrat (M, averagestrat,size);
+
 }
 
 
+
+int getdifferentattrarrays(I *A, int *index, int size){
+
+	int i,j;
+	int count=1;
+	int list[size];
+	list[0]=0;
+	index[0]=1;
+	for (i=1;i<size;i++){index[i]=0;}	
+	
+	for (i=1;i<size;i++){	
+		j=0;
+//			   printf("///i %i //j %i  \n",i,j);
+		while (j<count && samechar(A[i].attr,A[list[j]].attr,numattrs)==0 ){
+			j++;
+			}
+		index[j]++;
+		if (j==count){
+			list[count]=i;
+			count++;
+		}	
+		
+	}
+	return count;
+}
+
+
+long double getattrentropy(I *A, int size){
+
+	int index[size], i, count;
+	long double res=0, p;
+        count=  getdifferentattrarrays(A, index,  size);
+	for (i=0;i<count;i++){		
+//	 printf("%i %Lf \n", i, log2(index[i]));
+		p=(long double) index[i]/size;
+		res-= p* log2(p);        
+	}        
+	return res;
+}
+
+long double getattrdistancetocenter(I *A, float *center, int size){
+
+	int index[size], i, count;
+	float res=0.0;
+	for (i=0;i<size;i++){		
+	  res+= l1distancef(center,A[i].attr,numattrs,maxattrvalues);
+	}        
+	return res/(float)size;
+}
 
 
 
@@ -697,8 +784,12 @@ void fprintpopattrsentr (I *M, FILE *f){
 	float averageattr[numattrs], averageideal[numattrs];
 	long double averagea, maxval, entrattr, entrideal, entrstrat=0, averagel1dist;
 
-
 	getaverages(M, averageattr, averageideal, averagestr,popsize);
+
+
+	entrattr=getattrentropy(M,popsize);
+
+	averagel1dist=getattrdistancetocenter(M,averageattr,popsize);
 
 	for (i=0;i<numattrs;i++){	
 		fprintf(f,"%f ",averageattr[i]);
@@ -707,12 +798,13 @@ void fprintpopattrsentr (I *M, FILE *f){
 		fprintf(f,"%f ",averageideal[i]);
 		}
 
-
 	for (i=0;i<numstrategies;i++){	
 		fprintf(f,"%f ",averagestr[i]);
 		}
 
-	fprintf(f," \n");
+
+	fprintf(f,"%Lf %Lf \n",entrattr, averagel1dist);
+//	fprintf(f," \n");
 		
 }
 
@@ -733,6 +825,7 @@ void runtrials(FILE *fmout, FILE *fmout2, FILE *fmout3, long double *sumsumstrat
   unsigned char reproduced;
   
   int i,j,k,m,l,n,NumRuns,count2,NewGenCount, FemsCount, fid,mid,selection,replaceid, inumreps=0;
+  
 
 
    for (i=0; i< numrepetitions; i++) { 
@@ -963,4 +1056,7 @@ void runtrials(FILE *fmout, FILE *fmout2, FILE *fmout3, long double *sumsumstrat
     }
 
 }
+
+
+
 
